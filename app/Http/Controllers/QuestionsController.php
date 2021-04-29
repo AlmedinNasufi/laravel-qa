@@ -67,10 +67,7 @@ class QuestionsController extends Controller
      */
     public function edit(Question $question)
     {
-        if (\Gate::denies('update-question',$question))
-        {
-            abort(403, 'Acces Denied');
-        }
+        $this->authorize('update', $question);
         return view('questions.edit', compact('question'));
     }
 
@@ -83,6 +80,7 @@ class QuestionsController extends Controller
      */
     public function update(AskQuestionRequest $request, Question $question)
     {
+        $this->authorize('update', $question);
         $question->update($request->all());
         return redirect('/questions')->with('success', 'Your question has been updated');
     }
@@ -95,9 +93,7 @@ class QuestionsController extends Controller
      */
     public function destroy(Question $question)
     {
-        if (\Gate::denies('delete-question',$question)){
-            abort(403, 'Access not allowed');
-        }
+        $this->authorize('delete', $question);
         $question->delete();
 
         return redirect()->back()->with('success', 'Your question has been deleted');
