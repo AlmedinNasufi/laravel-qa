@@ -20,6 +20,6 @@ class DatabaseSeeder extends Seeder
 //            $the_user->questions()->saveMany(factory(\App\Models\Question::class, rand(1, 5))->make()
 //            );
 //        });
-        $user = User::factory(3)->has(Question::factory()->count(3))->create();
+        $user = User::factory(3)->has(Question::factory(3)->count(3))->create();
     }
 }
