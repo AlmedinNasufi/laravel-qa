@@ -10053,16 +10053,16 @@ h3.title-display {
 .vote-controls span.favorites-count {
   font-size: 12px;
 }
-.vote-controls span a {
+.vote-controls a {
   cursor: pointer;
   color: #6c757d;
 }
-.vote-controls span a.off .vote-controls span a.off:hover {
+.vote-controls a.off, .vote-controls a.off:hover {
   color: #adb5bd;
 }
-.vote-controls span a.favorite.favorited, .vote-controls span a.favorite.favorited:hover {
+.vote-controls a.favorite.favorited, .vote-controls a.favorite.favorited:hover {
   color: #ffed4a;
 }
-.vote-controls span a.vote-accepted {
-  color: #38c172 !important;
+.vote-controls a.vote-accepted {
+  color: #38c172;
 }
