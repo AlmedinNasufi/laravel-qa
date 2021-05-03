@@ -35,14 +35,18 @@ class Answer extends Model
         });
 
         static::deleted(function ($answer){
-            $question = $answer->question;
-            $question->decrement('answers_count');
+            //the first way -- git lesson 19-a
+//            $question = $answer->question;
+//            $question->decrement('answers_count');
+//
+//            if ($answer->id === $question->best_answer_id)
+//            {
+//                $question->best_answer_id = NULL;
+//                $question->save();
+//            }
 
-            if ($answer->id === $question->best_answer_id)
-            {
-                $question->best_answer_id = NULL;
-                $question->save();
-            }
+            // the second way -- git lesson 19-b
+            $answer->question->decrement('answers_count');
         });
     }
     public function getCreatedDateAttribute()
