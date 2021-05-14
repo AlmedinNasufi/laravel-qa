@@ -29,10 +29,11 @@
                                     <div class="col-4"></div>
                                     <div class="col-4"></div>
                                     <div class="col-4">
-                                        @include('shared._author',[
-                                        'model' => $question,
-                                        'label' => 'Asked'
-                                        ])
+{{--                                        @include('shared._author',[--}}
+{{--                                        'model' => $question,--}}
+{{--                                        'label' => 'Asked'--}}
+{{--                                        ])--}}
+                                        <user-info :model="{{ $question }}" label="Asked"></user-info>
                                     </div>
                                 </div>
                             </div>
@@ -45,7 +46,7 @@
         @include('answers._index',[
         'answers' => $question->answers,
         'answersCount' => $question->answers_count,
-        ]);
+        ])
 
         @include('answers._create')
     </div>
