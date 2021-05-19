@@ -20,7 +20,7 @@
             classes () {
                 return [
                     'favorite', 'mt-2',
-                    ! this.signedIn ? 'off' : (this.isFavorited ? 'favorited' : '')
+                    !this.signedIn ? 'off' : (this.isFavorited ? 'favorited' : '')
                 ];
             },
             endpoint () {
@@ -43,13 +43,6 @@
 
                 this.isFavorited ? this.destroy() : this.create();
             },
-            destroy () {
-                axios.delete(this.endpoint)
-                    .then(res => {
-                        this.count--;
-                        this.isFavorited = false;
-                    });
-            },
             create () {
                 axios.post(this.endpoint)
                     .then(res => {
@@ -57,6 +50,14 @@
                         this.isFavorited  = true;
                     });
             },
+            destroy () {
+                axios.delete(this.endpoint)
+                    .then(res => {
+                        this.count--;
+                        this.isFavorited = false;
+                    });
+            },
+
         }
     }
 </script>
