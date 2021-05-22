@@ -1,6 +1,5 @@
 <template>
     <div class="media post">
-
         <vote :model="answer" name="answer"></vote>
 
         <div class="media-body">
@@ -8,16 +7,16 @@
                 <div class="form-group">
                     <textarea rows="10" v-model="body" class="form-control" required></textarea>
                 </div>
-                <button v-if="authorize(modify, 'answer') " class="btn btn-primary" :disabled="isInvalid">Update</button>
-                <button v-if="authorize(modify, 'answer') " class="btn btn-outline-secondary" @click="cancel" type="button">Cancel</button>
+                <button class="btn btn-primary" :disabled="isInvalid">Update</button>
+                <button class="btn btn-outline-secondary" @click="cancel" type="button">Cancel</button>
             </form>
             <div v-else>
                 <div v-html="bodyHtml"></div>
                 <div class="row">
                     <div class="col-4">
                         <div class="ml-auto">
-                            <a @click.prevent="edit" class="btn btn-sm btn-outline-info">Edit</a>
-                            <button @click="destroy" class="btn btn-sm btn-outline-danger">Delete</button>
+                            <a v-if="authorize('modify', answer)" @click.prevent="edit" class="btn btn-sm btn-outline-info">Edit</a>
+                            <button v-if="authorize('modify', answer)" @click="destroy" class="btn btn-sm btn-outline-danger">Delete</button>
                         </div>
                     </div>
                     <div class="col-4"></div>
@@ -29,6 +28,7 @@
         </div>
     </div>
 </template>
+
 <script>
     export default {
         props: ['answer'],
@@ -43,13 +43,13 @@
             }
         },
         methods: {
-            edit() {
+            edit () {
                 this.beforeEditCache = this.body;
                 this.editing = true;
             },
             cancel () {
-                this.editing = false;
                 this.body = this.beforeEditCache;
+                this.editing = false;
             },
             update () {
                 axios.patch(this.endpoint, {
@@ -58,14 +58,14 @@
                     .then(res => {
                         this.editing = false;
                         this.bodyHtml = res.data.body_html;
-                        this.$toast.success(res.data.message, "Success", { timeout: 3000 });
+                        this.$toast.success(res.data.message, "Sucess", { timeout: 3000 });
                     })
                     .catch(err => {
                         this.$toast.error(err.response.data.message, "Error", { timeout: 3000 });
                     });
             },
             destroy () {
-                this.$toast.question('Are you sure about that?', 'Confirm',{
+                this.$toast.question('Are you sure about that?', "Confirm", {
                     timeout: 20000,
                     close: false,
                     overlay: true,
@@ -76,20 +76,18 @@
                     position: 'center',
                     buttons: [
                         ['<button><b>YES</b></button>', (instance, toast) => {
-                                axios.delete(this.endpoint)
-                                    .then(res => {
-                                        this.$emit('deleted');
-                                    });
+
+                            axios.delete(this.endpoint)
+                                .then(res => {
+                                    this.$emit('deleted')
+                                });
                             instance.hide({ transitionOut: 'fadeOut' }, toast, 'button');
                         }, true],
                         ['<button>NO</button>', function (instance, toast) {
-
                             instance.hide({ transitionOut: 'fadeOut' }, toast, 'button');
-
                         }],
-                    ],
+                    ]
                 });
-
             }
         },
         computed: {
@@ -99,7 +97,6 @@
             endpoint () {
                 return `/questions/${this.questionId}/answers/${this.id}`;
             }
-        },
-
+        }
     }
 </script>
