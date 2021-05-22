@@ -30,7 +30,7 @@ Route::get('question/{slug}', [QuestionsController::class, 'show'])->name('quest
 
 //Route::post('questions/{questions}/answers',[[AnswersController::class, 'store']])->name('answers.store');
 //oses
-Route::resource('questions.answers', AnswersController::class)->except('index','create','show');
+Route::resource('questions.answers', AnswersController::class)->except('create','show');
 
 Route::post('/answers/{answer}/accept', [AcceptAnswerController::class, '__invoke'])->name('answers.accept');
 
